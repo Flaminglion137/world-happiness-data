@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 explore.py)",
+      "Bash(python3 combine.py)",
+      "Bash(python3 visualise.py)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"import seaborn; print\\(''ok''\\)\")",
+      "Bash(python3 analyse.py)",
+      "Bash(python3 insights.py)",
+      "Bash(ls:*)",
+      "Bash(open index.html)"
+    ]
+  }
+}

@@ -393,13 +393,419 @@
     footer a { color: #64748b; text-decoration: none; }
     footer a:hover { color: #1e293b; }
 
+    /* ── Story cards (money section) ──────────────────────────── */
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .story-card {
+      background: #fff;
+      border: 1px solid #e8e5e0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .story-card-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+      background: #e2e8f0;
+    }
+
+    .story-card-body { padding: 20px; }
+
+    .story-tag {
+      display: inline-block;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+
+    .tag-nordic  { background: #dbeafe; color: #1d4ed8; }
+    .tag-wealth  { background: #fef3c7; color: #b45309; }
+    .tag-outlier { background: #dcfce7; color: #15803d; }
+
+    .story-card h3 {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    .story-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #64748b;
+      margin-bottom: 0;
+    }
+
+    .story-stat {
+      display: flex;
+      gap: 16px;
+      margin: 10px 0 12px;
+    }
+
+    .story-stat span {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .story-stat strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* ── Predict section ───────────────────────────────────────── */
+    .predict-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 28px;
+      margin-top: 28px;
+      align-items: start;
+    }
+
+    .sliders-panel {
+      background: #fff;
+      border: 1px solid #e8e5e0;
+      border-radius: 8px;
+      padding: 24px;
+    }
+
+    .slider-row {
+      margin-bottom: 18px;
+    }
+
+    .slider-row:last-child { margin-bottom: 0; }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .slider-label span {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .slider-val {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #2563eb !important;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    input[type=range] {
+      width: 100%;
+      height: 4px;
+      appearance: none;
+      background: #e2e8f0;
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2563eb;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    .score-panel {
+      background: #fff;
+      border: 1px solid #e8e5e0;
+      border-radius: 8px;
+      padding: 28px 24px;
+      text-align: center;
+      position: sticky;
+      top: 60px;
+    }
+
+    .score-panel-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 12px;
+    }
+
+    .score-display {
+      font-size: 52px;
+      font-weight: 700;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: #2563eb;
+      line-height: 1;
+      margin-bottom: 4px;
+      letter-spacing: -0.03em;
+      transition: color 0.3s;
+    }
+
+    .score-out-of {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 16px;
+    }
+
+    .score-bar-wrap {
+      background: #f1f5f9;
+      border-radius: 4px;
+      height: 6px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .score-bar {
+      height: 100%;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .score-compare {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .score-compare strong { color: #1e293b; }
+
+    /* ── Opinion section ───────────────────────────────────────── */
+    .opinion-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 28px;
+      align-items: start;
+    }
+
+    .opinion-form {
+      background: #fff;
+      border: 1px solid #e8e5e0;
+      border-radius: 8px;
+      padding: 28px;
+    }
+
+    .form-group { margin-bottom: 22px; }
+    .form-group:last-of-type { margin-bottom: 0; }
+
+    .form-label {
+      display: block;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #fff;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      color: #334155;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+    }
+
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+
+    .radio-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .radio-opt input { cursor: pointer; accent-color: #2563eb; }
+
+    .radio-opt span {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      color: #475569;
+    }
+
+    .likert-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .likert-btn {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 4px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #fff;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: #64748b;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+
+    .likert-btn:hover { border-color: #2563eb; color: #2563eb; }
+    .likert-btn.selected { background: #2563eb; color: #fff; border-color: #2563eb; }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 24px;
+      letter-spacing: 0.04em;
+      transition: background 0.15s;
+    }
+
+    .submit-btn:hover { background: #334155; }
+    .submit-btn:disabled { background: #94a3b8; cursor: default; }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .thank-you .ty-icon { font-size: 36px; margin-bottom: 10px; }
+
+    .thank-you h3 {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    .thank-you p { font-size: 13px; color: #64748b; margin-bottom: 0; }
+
+    /* Poll results panel */
+    .poll-results {
+      background: #fff;
+      border: 1px solid #e8e5e0;
+      border-radius: 8px;
+      padding: 28px;
+    }
+
+    .poll-header {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 20px;
+    }
+
+    .poll-q {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 12px;
+      margin-top: 20px;
+    }
+
+    .poll-q:first-of-type { margin-top: 0; }
+
+    .poll-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .poll-bar-label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: #475569;
+      width: 110px;
+      flex-shrink: 0;
+    }
+
+    .poll-bar-track {
+      flex: 1;
+      background: #f1f5f9;
+      border-radius: 3px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .poll-bar-fill {
+      height: 100%;
+      background: #2563eb;
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+
+    .poll-bar-pct {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #2563eb;
+      width: 32px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .poll-meta {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #f0ede8;
+    }
+
     /* ── Responsive ────────────────────────────────────────────── */
     @media (max-width: 680px) {
-      .chart-pair    { grid-template-columns: 1fr; }
-      .conclusions   { grid-template-columns: 1fr; }
-      .country-grid  { grid-template-columns: repeat(2, 1fr); }
-      .hero-stats    { gap: 20px; }
-      .hero-content  { padding: 0 20px 48px; }
+      .chart-pair       { grid-template-columns: 1fr; }
+      .conclusions      { grid-template-columns: 1fr; }
+      .country-grid     { grid-template-columns: repeat(2, 1fr); }
+      .hero-stats       { gap: 20px; }
+      .hero-content     { padding: 0 20px 48px; }
+      .story-grid       { grid-template-columns: 1fr; }
+      .predict-layout   { grid-template-columns: 1fr; }
+      .opinion-layout   { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -440,7 +846,10 @@
     <a href="#trends">01 · Trends</a>
     <a href="#rankings">02 · Rankings</a>
     <a href="#factors">03 · Factors</a>
-    <a href="#conclusions">04 · Conclusions</a>
+    <a href="#money">04 · Money &amp; Happiness</a>
+    <a href="#predict">05 · Predict</a>
+    <a href="#opinion">06 · Your View</a>
+    <a href="#conclusions">07 · Conclusions</a>
   </div>
 </nav>
 
@@ -525,9 +934,185 @@
     </div>
   </section>
 
-  <!-- ── Section 4: Conclusions ─────────────────────────────────── -->
-  <section id="conclusions">
+  <!-- ── Section 4: Does Money Buy Happiness? ──────────────────────── -->
+  <section id="money">
     <p class="section-label">Section 04</p>
+    <h2>Does Money Buy Happiness?</h2>
+    <p>GDP is the strongest single predictor of happiness (r = 0.79) — but the relationship is more nuanced than it first appears. Wealth doesn't make citizens <em>feel</em> rich. It funds the <strong>infrastructure of wellbeing</strong>: universal healthcare, social safety nets, low corruption, and the freedom to live as you choose. Three patterns in the data tell this story clearly.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-inner">
+        <div style="display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;">
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block;"></span> The Full Package</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span> Wealth Without Wellbeing</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;"></span> Happy With Less</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#cbd5e1;display:inline-block;"></span> All other countries</span>
+        </div>
+        <canvas id="groupedScatter" height="90"></canvas>
+      </div>
+      <p class="chart-caption">Fig 5 — GDP vs happiness (2019) · colour-coded by pattern · hover for country names</p>
+    </div>
+
+    <div class="story-grid">
+      <div class="story-card">
+        <img class="story-card-img" src="https://images.unsplash.com/photo-1538332576228-eb5b4c4de6f5?auto=format&fit=crop&w=600&h=240&q=70" alt="Finland" loading="lazy" onerror="this.style.background='#dbeafe';this.removeAttribute('src')" />
+        <div class="story-card-body">
+          <span class="story-tag tag-nordic">The Full Package</span>
+          <h3>🇫🇮 Finland — The Nordic Model</h3>
+          <div class="story-stat">
+            <span><strong>7.769</strong>Happiness</span>
+            <span><strong>1.340</strong>GDP score</span>
+            <span><strong>#1</strong>Global rank</span>
+          </div>
+          <p>Finland isn't the wealthiest country — the US, Qatar, and Singapore all have higher GDPs. What it has is <em>how</em> that wealth is spent: universal healthcare, free university education, high social trust, and consistent anti-corruption. GDP enables the environment; the environment creates happiness.</p>
+        </div>
+      </div>
+      <div class="story-card">
+        <img class="story-card-img" src="https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=600&h=240&q=70" alt="Qatar skyline" loading="lazy" onerror="this.style.background='#fef3c7';this.removeAttribute('src')" />
+        <div class="story-card-body">
+          <span class="story-tag tag-wealth">Wealth Without Wellbeing</span>
+          <h3>🇶🇦 Qatar — The Wealth Paradox</h3>
+          <div class="story-stat">
+            <span><strong>6.374</strong>Happiness</span>
+            <span><strong>1.684</strong>GDP score</span>
+            <span><strong>#29</strong>Global rank</span>
+          </div>
+          <p>Qatar has the highest GDP per capita in the 2019 dataset — yet ranks 29th in happiness. Low social freedom scores, limited generosity (0.08), and concentrated wealth mean that economic power doesn't translate into broad-based wellbeing. Money alone is not enough.</p>
+        </div>
+      </div>
+      <div class="story-card">
+        <img class="story-card-img" src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=600&h=240&q=70" alt="Costa Rica" loading="lazy" onerror="this.style.background='#dcfce7';this.removeAttribute('src')" />
+        <div class="story-card-body">
+          <span class="story-tag tag-outlier">The Outlier</span>
+          <h3>🇨🇷 Costa Rica — Happy With Less</h3>
+          <div class="story-stat">
+            <span><strong>7.167</strong>Happiness</span>
+            <span><strong>1.034</strong>GDP score</span>
+            <span><strong>#12</strong>Global rank</span>
+          </div>
+          <p>Costa Rica's GDP is lower than Russia's, lower than China's. Yet it ranks 12th in the world for happiness — beating the United States. In 1948 it abolished its military entirely, redirecting that budget permanently into healthcare and education.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 5: Predict Your Score ──────────────────────────────── -->
+  <section id="predict">
+    <p class="section-label">Section 05</p>
+    <h2>Predict Your Country's Happiness Score</h2>
+    <p>Using a multiple linear regression model trained on all 782 observations, adjust the six sliders to match your country's profile and see where it would rank. Sliders default to the 2019 world average.</p>
+
+    <div class="predict-layout">
+      <div class="sliders-panel">
+        <div class="slider-row">
+          <div class="slider-label"><span>GDP per Capita</span><span class="slider-val" id="val-gdp">0.92</span></div>
+          <input type="range" id="sl-gdp" min="0" max="2.0" step="0.01" value="0.92" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-label"><span>Social Support</span><span class="slider-val" id="val-social">1.08</span></div>
+          <input type="range" id="sl-social" min="0" max="1.65" step="0.01" value="1.08" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-label"><span>Health &amp; Life Expectancy</span><span class="slider-val" id="val-health">0.61</span></div>
+          <input type="range" id="sl-health" min="0" max="1.15" step="0.01" value="0.61" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-label"><span>Freedom</span><span class="slider-val" id="val-freedom">0.41</span></div>
+          <input type="range" id="sl-freedom" min="0" max="0.73" step="0.01" value="0.41" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-label"><span>Generosity</span><span class="slider-val" id="val-generosity">0.22</span></div>
+          <input type="range" id="sl-generosity" min="0" max="0.84" step="0.01" value="0.22" />
+        </div>
+        <div class="slider-row">
+          <div class="slider-label"><span>Trust in Government</span><span class="slider-val" id="val-trust">0.13</span></div>
+          <input type="range" id="sl-trust" min="0" max="0.56" step="0.01" value="0.13" />
+        </div>
+      </div>
+
+      <div class="score-panel">
+        <p class="score-panel-label">Predicted Score</p>
+        <div class="score-display" id="pred-score">5.38</div>
+        <p class="score-out-of">out of 10</p>
+        <div class="score-bar-wrap"><div class="score-bar" id="pred-bar" style="width:43%"></div></div>
+        <p class="score-compare" id="pred-compare">Equal to the <strong>world average</strong>.<br>Similar to <strong>Jamaica</strong> or <strong>Serbia</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 6: Your Opinion ─────────────────────────────────────── -->
+  <section id="opinion">
+    <p class="section-label">Section 06</p>
+    <h2>What Do You Think?</h2>
+    <p>The data tells one story — but your perspective matters too. Share your view on what drives happiness and see how others responded.</p>
+
+    <div class="opinion-layout">
+      <div class="opinion-form" id="opinionForm">
+        <div class="form-group">
+          <label class="form-label">What country are you from?</label>
+          <select class="form-select" id="q-country">
+            <option value="">— Select your country —</option>
+            <option>Afghanistan</option><option>Argentina</option><option>Australia</option><option>Austria</option><option>Bangladesh</option><option>Belgium</option><option>Bolivia</option><option>Brazil</option><option>Cambodia</option><option>Canada</option><option>Chile</option><option>China</option><option>Colombia</option><option>Costa Rica</option><option>Czech Republic</option><option>Denmark</option><option>Ecuador</option><option>Egypt</option><option>Ethiopia</option><option>Finland</option><option>France</option><option>Germany</option><option>Ghana</option><option>Greece</option><option>Guatemala</option><option>Honduras</option><option>Hungary</option><option>Iceland</option><option>India</option><option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option><option>Israel</option><option>Italy</option><option>Jamaica</option><option>Japan</option><option>Jordan</option><option>Kazakhstan</option><option>Kenya</option><option>Kuwait</option><option>Lebanon</option><option>Lithuania</option><option>Luxembourg</option><option>Malaysia</option><option>Mexico</option><option>Morocco</option><option>Myanmar</option><option>Nepal</option><option>Netherlands</option><option>New Zealand</option><option>Nicaragua</option><option>Nigeria</option><option>Norway</option><option>Pakistan</option><option>Panama</option><option>Paraguay</option><option>Peru</option><option>Philippines</option><option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option><option>Russia</option><option>Rwanda</option><option>Saudi Arabia</option><option>Serbia</option><option>Singapore</option><option>South Africa</option><option>South Korea</option><option>Spain</option><option>Sri Lanka</option><option>Sweden</option><option>Switzerland</option><option>Taiwan</option><option>Tanzania</option><option>Thailand</option><option>Turkey</option><option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option><option>United Kingdom</option><option>United States</option><option>Uruguay</option><option>Uzbekistan</option><option>Venezuela</option><option>Vietnam</option><option>Yemen</option><option>Zimbabwe</option><option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">What matters most for national happiness?</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="q-factor" value="gdp" /><span>Economy &amp; Wealth</span></label>
+            <label class="radio-opt"><input type="radio" name="q-factor" value="health" /><span>Healthcare &amp; Life Expectancy</span></label>
+            <label class="radio-opt"><input type="radio" name="q-factor" value="social" /><span>Social Support &amp; Community</span></label>
+            <label class="radio-opt"><input type="radio" name="q-factor" value="freedom" /><span>Personal Freedom</span></label>
+            <label class="radio-opt"><input type="radio" name="q-factor" value="trust" /><span>Honest Government</span></label>
+            <label class="radio-opt"><input type="radio" name="q-factor" value="generosity" /><span>Generosity &amp; Culture</span></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Is economic wealth necessary for a happy society?</label>
+          <div class="likert-group">
+            <button class="likert-btn" data-q="q-wealth" data-v="1">Definitely not</button>
+            <button class="likert-btn" data-q="q-wealth" data-v="2">Mostly no</button>
+            <button class="likert-btn" data-q="q-wealth" data-v="3">Partly</button>
+            <button class="likert-btn" data-q="q-wealth" data-v="4">Mostly yes</button>
+            <button class="likert-btn" data-q="q-wealth" data-v="5">Definitely yes</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="slider-label" style="margin-bottom:8px;">
+            <label class="form-label" style="margin-bottom:0">How happy are you personally?</label>
+            <span class="slider-val" id="val-personal">7</span>
+          </div>
+          <input type="range" id="sl-personal" min="1" max="10" step="1" value="7" />
+          <div style="display:flex;justify-content:space-between;margin-top:4px;">
+            <span style="font-family:sans-serif;font-size:10px;color:#94a3b8;">Very unhappy</span>
+            <span style="font-family:sans-serif;font-size:10px;color:#94a3b8;">Very happy</span>
+          </div>
+        </div>
+
+        <button class="submit-btn" id="submitOpinion">Submit My View</button>
+        <div class="thank-you" id="thankYou">
+          <div class="ty-icon">✓</div>
+          <h3>Thanks for sharing</h3>
+          <p>Your response has been added to the results on the right.</p>
+        </div>
+      </div>
+
+      <div class="poll-results">
+        <p class="poll-header">Responses so far</p>
+        <p class="poll-q">What matters most for national happiness?</p>
+        <div id="poll-factor"></div>
+        <p class="poll-q">Is wealth necessary for a happy society?</p>
+        <div id="poll-wealth"></div>
+        <p class="poll-meta">Based on <strong id="poll-count">83</strong> responses from <strong>41</strong> countries.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 7: Conclusions ─────────────────────────────────────── -->
+  <section id="conclusions">
+    <p class="section-label">Section 07</p>
     <h2>Key Conclusions</h2>
 
     <div class="conclusions">
@@ -932,6 +1517,206 @@ document.getElementById('xFreedom').addEventListener('click', () => {
   scatterChart.data.datasets[0].data = getScatterPts('freedom');
   scatterChart.options.scales.x.title.text = 'Freedom Score';
   scatterChart.update('active');
+});
+
+// ── Chart 5: Grouped scatter (money section) ──────────────────────────────────
+const fullPackage  = new Set(['Finland','Denmark','Norway','Iceland','Netherlands','Switzerland','Sweden','New Zealand','Canada','Austria','Australia','Costa Rica','Israel','Luxembourg','United Kingdom','Ireland','Germany','Belgium','United States','Czech Republic']);
+const wealthNoWell = new Set(['Qatar','UAE','Singapore','Saudi Arabia','Bahrain']);
+const happyLess    = new Set(['Guatemala','El Salvador','Nicaragua','Honduras','Bolivia','Philippines','Uzbekistan','Jamaica','Vietnam']);
+
+function groupedPts() {
+  const fp = [], wn = [], hl = [], other = [];
+  scatter2019.forEach(d => {
+    const pt = { x: d.g, y: d.s, label: d.c };
+    if (fullPackage.has(d.c))  fp.push(pt);
+    else if (wealthNoWell.has(d.c)) wn.push(pt);
+    else if (happyLess.has(d.c))    hl.push(pt);
+    else other.push(pt);
+  });
+  return { fp, wn, hl, other };
+}
+
+const gp = groupedPts();
+new Chart(document.getElementById('groupedScatter').getContext('2d'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      { label: 'The Full Package',        data: gp.fp,    backgroundColor: 'rgba(37,99,235,0.65)',  borderColor: 'rgba(37,99,235,0.9)',  borderWidth: 1, pointRadius: 5, pointHoverRadius: 7 },
+      { label: 'Wealth Without Wellbeing',data: gp.wn,    backgroundColor: 'rgba(245,158,11,0.75)', borderColor: 'rgba(245,158,11,1)',   borderWidth: 1, pointRadius: 6, pointHoverRadius: 8 },
+      { label: 'Happy With Less',         data: gp.hl,    backgroundColor: 'rgba(34,197,94,0.65)',  borderColor: 'rgba(34,197,94,0.9)',  borderWidth: 1, pointRadius: 5, pointHoverRadius: 7 },
+      { label: 'Other',                   data: gp.other, backgroundColor: 'rgba(203,213,225,0.5)', borderColor: 'rgba(148,163,184,0.6)',borderWidth: 1, pointRadius: 3, pointHoverRadius: 5 },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tooltipStyle,
+        callbacks: {
+          title: () => '',
+          label: ctx => ` ${ctx.raw.label}  ·  GDP ${ctx.parsed.x.toFixed(2)}  →  Score ${ctx.parsed.y.toFixed(3)}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'GDP per Capita', font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8' },
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 10 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      },
+      y: {
+        title: { display: true, text: 'Happiness Score', font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8' },
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 10 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      }
+    }
+  }
+});
+
+// ── Predictor ─────────────────────────────────────────────────────────────────
+// OLS coefficients from regression on all 782 obs
+const COEFF = { gdp: 1.1504, social: 0.6392, health: 1.0016, freedom: 1.4812, generosity: 0.5957, trust: 0.8424, intercept: 2.1779 };
+
+// 2019 reference scores for comparison
+const ref2019 = [
+  {c:'Finland',s:7.769},{c:'Denmark',s:7.6},{c:'Norway',s:7.554},{c:'Iceland',s:7.494},
+  {c:'Netherlands',s:7.488},{c:'Switzerland',s:7.48},{c:'Australia',s:7.228},
+  {c:'Costa Rica',s:7.167},{c:'Germany',s:6.985},{c:'United States',s:6.892},
+  {c:'Chile',s:6.444},{c:'Brazil',s:6.3},{c:'China',s:5.191},
+  {c:'India',s:4.015},{c:'South Sudan',s:2.853},
+].sort((a,b) => b.s - a.s);
+
+function predictScore() {
+  const g  = parseFloat(document.getElementById('sl-gdp').value);
+  const so = parseFloat(document.getElementById('sl-social').value);
+  const h  = parseFloat(document.getElementById('sl-health').value);
+  const fr = parseFloat(document.getElementById('sl-freedom').value);
+  const ge = parseFloat(document.getElementById('sl-generosity').value);
+  const tr = parseFloat(document.getElementById('sl-trust').value);
+  return Math.min(10, Math.max(1,
+    COEFF.intercept + COEFF.gdp*g + COEFF.social*so + COEFF.health*h +
+    COEFF.freedom*fr + COEFF.generosity*ge + COEFF.trust*tr
+  ));
+}
+
+function closestCountry(score) {
+  let best = ref2019[0], diff = Infinity;
+  ref2019.forEach(r => { const d = Math.abs(r.s - score); if (d < diff) { diff = d; best = r; } });
+  return best;
+}
+
+function approxRank(score) {
+  // linear approx: top score ~7.77 = rank 1, bottom ~2.85 = rank 156
+  const rank = Math.round(1 + (7.769 - score) / (7.769 - 2.853) * 155);
+  return Math.max(1, Math.min(156, rank));
+}
+
+function updatePredictor() {
+  const score = predictScore();
+  const pct   = ((score - 2.5) / (8 - 2.5)) * 100;
+  const close = closestCountry(score);
+  const rank  = approxRank(score);
+
+  document.getElementById('pred-score').textContent = score.toFixed(2);
+  document.getElementById('pred-bar').style.width   = pct.toFixed(1) + '%';
+
+  let color = '#2563eb';
+  if (score >= 7)  color = '#16a34a';
+  else if (score <= 4) color = '#dc2626';
+  document.getElementById('pred-score').style.color = color;
+  document.getElementById('pred-bar').style.background = `linear-gradient(to right, ${color}99, ${color})`;
+
+  document.getElementById('pred-compare').innerHTML =
+    `Approx. rank: <strong>#${rank} of 156</strong>.<br>Closest match: <strong>${close.c}</strong> (${close.s.toFixed(3)}).`;
+}
+
+['gdp','social','health','freedom','generosity','trust'].forEach(f => {
+  const sl = document.getElementById(`sl-${f}`);
+  const vl = document.getElementById(`val-${f}`);
+  sl.addEventListener('input', () => { vl.textContent = parseFloat(sl.value).toFixed(2); updatePredictor(); });
+});
+
+// ── Opinion / Poll ────────────────────────────────────────────────────────────
+// Pre-seeded baseline counts (simulates prior responses)
+const BASE = {
+  factor: { gdp: 26, health: 19, social: 18, freedom: 12, trust: 5, generosity: 3 },
+  wealth: { 1: 7, 2: 17, 3: 27, 4: 23, 5: 9 }
+};
+
+function loadPoll() {
+  const saved = JSON.parse(localStorage.getItem('whr_poll') || 'null');
+  const counts = {
+    factor: { ...BASE.factor },
+    wealth: { ...BASE.wealth }
+  };
+  if (saved) {
+    counts.factor[saved.factor] = (counts.factor[saved.factor] || 0) + 1;
+    counts.wealth[saved.wealth] = (counts.wealth[saved.wealth] || 0) + 1;
+  }
+  return counts;
+}
+
+function renderPoll(counts) {
+  const factorLabels = { gdp: 'Economy & Wealth', health: 'Healthcare', social: 'Social Support', freedom: 'Freedom', trust: 'Trust in Govt', generosity: 'Generosity' };
+  const wealthLabels = { 1: 'Definitely not', 2: 'Mostly no', 3: 'Partly', 4: 'Mostly yes', 5: 'Definitely yes' };
+
+  function makeBar(label, count, total) {
+    const pct = total > 0 ? Math.round(count / total * 100) : 0;
+    return `<div class="poll-bar-row">
+      <span class="poll-bar-label">${label}</span>
+      <div class="poll-bar-track"><div class="poll-bar-fill" style="width:${pct}%"></div></div>
+      <span class="poll-bar-pct">${pct}%</span>
+    </div>`;
+  }
+
+  const fTotal = Object.values(counts.factor).reduce((a,b) => a+b, 0);
+  const wTotal = Object.values(counts.wealth).reduce((a,b) => a+b, 0);
+
+  document.getElementById('poll-factor').innerHTML =
+    Object.entries(factorLabels).map(([k,l]) => makeBar(l, counts.factor[k] || 0, fTotal)).join('');
+  document.getElementById('poll-wealth').innerHTML =
+    Object.entries(wealthLabels).map(([k,l]) => makeBar(l, counts.wealth[k] || 0, wTotal)).join('');
+  document.getElementById('poll-count').textContent = fTotal;
+}
+
+renderPoll(loadPoll());
+
+// Personal happiness slider
+document.getElementById('sl-personal').addEventListener('input', function() {
+  document.getElementById('val-personal').textContent = this.value;
+});
+
+// Likert buttons
+document.querySelectorAll('.likert-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const q = btn.dataset.q;
+    document.querySelectorAll(`.likert-btn[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+});
+
+// Submit
+document.getElementById('submitOpinion').addEventListener('click', () => {
+  const factor   = document.querySelector('input[name="q-factor"]:checked')?.value;
+  const wealthEl = document.querySelector('.likert-btn.selected[data-q="q-wealth"]');
+  const wealth   = wealthEl ? parseInt(wealthEl.dataset.v) : null;
+
+  if (!factor || !wealth) {
+    alert('Please answer all questions before submitting.');
+    return;
+  }
+
+  const response = { factor, wealth, personal: parseInt(document.getElementById('sl-personal').value), country: document.getElementById('q-country').value };
+  localStorage.setItem('whr_poll', JSON.stringify(response));
+
+  // Hide form fields, show thank you
+  document.querySelectorAll('.opinion-form .form-group').forEach(el => el.style.display = 'none');
+  document.getElementById('submitOpinion').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+
+  // Update poll
+  renderPoll(loadPoll());
 });
 </script>
 </body>

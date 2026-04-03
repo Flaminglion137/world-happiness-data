@@ -4,159 +4,385 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>World Happiness Report — Data Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <style>
-    /* ── Reset & base ───────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: "Georgia", serif;
       background: #f9f8f6;
-      color: #1a1a1a;
+      color: #1e293b;
       line-height: 1.75;
     }
 
-    /* ── Layout ─────────────────────────────────────────────── */
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px;
+    /* ── Hero ──────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 580px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
     }
 
-    /* ── Header ─────────────────────────────────────────────── */
-    header {
-      border-bottom: 2px solid #1a1a1a;
-      padding: 56px 0 36px;
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center 30%;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.88) 0%,
+        rgba(0,0,0,0.35) 55%,
+        rgba(0,0,0,0.05) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 32px 64px;
+      width: 100%;
     }
 
     .eyebrow {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
+      font-weight: 700;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #777;
-      margin-bottom: 14px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 16px;
     }
 
-    h1 {
-      font-size: clamp(28px, 5vw, 42px);
+    .hero h1 {
+      font-size: clamp(34px, 5.5vw, 58px);
       font-weight: normal;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      margin-bottom: 22px;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 18px;
     }
 
-    .intro {
-      font-size: 17px;
-      color: #444;
-      max-width: 680px;
+    .hero-intro {
+      font-size: 18px;
+      color: rgba(255,255,255,0.72);
+      max-width: 580px;
+      line-height: 1.6;
+      margin-bottom: 36px;
     }
 
-    .meta {
+    .hero-stats {
+      display: flex;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      border-left: 2px solid rgba(255,255,255,0.35);
+      padding-left: 14px;
+    }
+
+    .hero-stat .num {
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
       font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 12px;
-      color: #999;
-      margin-top: 20px;
-      letter-spacing: 0.04em;
+      display: block;
+      line-height: 1.2;
     }
 
-    /* ── Section headings ───────────────────────────────────── */
-    section { padding: 56px 0; border-bottom: 1px solid #e0ddd8; }
+    .hero-stat .lbl {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Sticky nav ────────────────────────────────────────────── */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .sticky-nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .sticky-nav a {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: #94a3b8;
+      text-decoration: none;
+      padding: 15px 14px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .sticky-nav a:hover {
+      color: #1e293b;
+      border-bottom-color: #1e293b;
+    }
+
+    /* ── Layout ────────────────────────────────────────────────── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 72px 0;
+      border-bottom: 1px solid #e8e5e0;
+    }
+
     section:last-of-type { border-bottom: none; }
 
     .section-label {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #aaa;
       margin-bottom: 10px;
     }
 
     h2 {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: normal;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       letter-spacing: -0.01em;
+      line-height: 1.25;
     }
 
-    p { margin-bottom: 14px; color: #333; }
+    p { margin-bottom: 14px; color: #475569; }
     p:last-child { margin-bottom: 0; }
 
-    /* ── Chart blocks ───────────────────────────────────────── */
-    .chart-pair {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 32px;
-    }
-
-    .chart-single { margin-top: 32px; }
-
+    /* ── Chart blocks ──────────────────────────────────────────── */
     .chart-wrap {
       background: #fff;
       border: 1px solid #e8e5e0;
-      border-radius: 4px;
+      border-radius: 8px;
       overflow: hidden;
+      margin-top: 28px;
     }
 
-    .chart-wrap img {
-      width: 100%;
-      display: block;
-    }
+    .chart-inner { padding: 24px 24px 16px; }
 
     .chart-caption {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
-      color: #999;
-      padding: 10px 14px 12px;
+      color: #94a3b8;
+      padding: 10px 20px 14px;
       border-top: 1px solid #f0ede8;
     }
 
-    /* ── Conclusions ────────────────────────────────────────── */
-    .conclusions { margin-top: 32px; }
+    .chart-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .chart-pair .chart-wrap { margin-top: 0; }
+
+    /* ── Year selector ─────────────────────────────────────────── */
+    .year-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .year-tab {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .year-tab:hover { border-color: #334155; color: #334155; }
+    .year-tab.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+
+    /* ── Country photo grid ────────────────────────────────────── */
+    .country-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .country-card {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e8e5e0;
+      background: #fff;
+      text-align: center;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+
+    .country-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .country-card-img {
+      width: 100%;
+      height: 72px;
+      object-fit: cover;
+      display: block;
+      background: #e8e5e0;
+    }
+
+    .country-card-body { padding: 9px 6px 10px; }
+
+    .country-card-rank {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      color: #aaa;
+      letter-spacing: 0.1em;
+    }
+
+    .country-card-name {
+      font-size: 10px;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 2px 0;
+      line-height: 1.3;
+    }
+
+    .country-card-score {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    /* ── Scatter toggle ────────────────────────────────────────── */
+    .scatter-toggle {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .scatter-toggle span {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-right: 4px;
+    }
+
+    .scatter-btn {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .scatter-btn:hover { border-color: #334155; color: #334155; }
+    .scatter-btn.active { background: #1e293b; color: #fff; border-color: #1e293b; }
+
+    /* ── Conclusions ───────────────────────────────────────────── */
+    .conclusions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 28px;
+    }
 
     .conclusion-card {
       background: #fff;
       border: 1px solid #e8e5e0;
-      border-radius: 4px;
-      padding: 26px 28px;
-      margin-bottom: 16px;
+      border-radius: 8px;
+      padding: 28px;
     }
-
-    .conclusion-card:last-child { margin-bottom: 0; }
 
     .conclusion-number {
       font-family: "Helvetica Neue", Arial, sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #bbb;
-      margin-bottom: 8px;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .stat-highlight {
+      font-size: 34px;
+      font-weight: 700;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      color: #2563eb;
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+      line-height: 1;
     }
 
     .conclusion-heading {
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 15px;
+      font-weight: 700;
       margin-bottom: 10px;
       font-family: "Helvetica Neue", Arial, sans-serif;
-      color: #1a1a1a;
+      color: #1e293b;
+      line-height: 1.35;
     }
 
     .conclusion-card p {
-      font-size: 15px;
-      line-height: 1.7;
-      color: #444;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #64748b;
     }
 
-    /* ── Footer ─────────────────────────────────────────────── */
+    /* ── Footer ────────────────────────────────────────────────── */
     footer {
       padding: 36px 0;
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 12px;
-      color: #bbb;
+      color: #94a3b8;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -164,102 +390,143 @@
       gap: 8px;
     }
 
-    /* ── Responsive ─────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .chart-pair { grid-template-columns: 1fr; }
+    footer a { color: #64748b; text-decoration: none; }
+    footer a:hover { color: #1e293b; }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .chart-pair    { grid-template-columns: 1fr; }
+      .conclusions   { grid-template-columns: 1fr; }
+      .country-grid  { grid-template-columns: repeat(2, 1fr); }
+      .hero-stats    { gap: 20px; }
+      .hero-content  { padding: 0 20px 48px; }
     }
   </style>
 </head>
 <body>
 
+<!-- ── Hero ──────────────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">Data Analysis &nbsp;·&nbsp; World Happiness Report 2015–2019</p>
+    <h1>What Makes<br>Countries Happy?</h1>
+    <p class="hero-intro">Five years of data across 155+ countries reveals the surprising — and not-so-surprising — drivers of national wellbeing.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num">782</span>
+        <span class="lbl">Observations</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">155+</span>
+        <span class="lbl">Countries</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">5</span>
+        <span class="lbl">Years</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">6</span>
+        <span class="lbl">Factors analysed</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Sticky nav ─────────────────────────────────────────────────── -->
+<nav class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <a href="#trends">01 · Trends</a>
+    <a href="#rankings">02 · Rankings</a>
+    <a href="#factors">03 · Factors</a>
+    <a href="#conclusions">04 · Conclusions</a>
+  </div>
+</nav>
+
 <div class="container">
 
-  <!-- ── Header ──────────────────────────────────────────────── -->
-  <header>
-    <p class="eyebrow">Data Analysis Project</p>
-    <h1>What Makes Countries Happy?<br>A Five-Year Global Analysis</h1>
-    <p class="intro">
-      Using the World Happiness Report datasets from 2015 to 2019, this project
-      explores which factors drive national happiness, how scores have shifted
-      over time, and whether wealth reliably predicts wellbeing across 155+
-      countries. Data was cleaned, standardised, and analysed using Python
-      (pandas, matplotlib, seaborn).
-    </p>
-    <p class="meta">Dataset: World Happiness Report 2015–2019&nbsp;&nbsp;·&nbsp;&nbsp;782 observations&nbsp;&nbsp;·&nbsp;&nbsp;Python / pandas / matplotlib / seaborn</p>
-  </header>
-
-  <!-- ── Section 1: Trends over time ────────────────────────── -->
-  <section>
+  <!-- ── Section 1: Global trends ──────────────────────────────── -->
+  <section id="trends">
     <p class="section-label">Section 01</p>
     <h2>Global Happiness Over Time</h2>
     <p>
-      Average happiness scores were computed for each year across all surveyed
-      countries. The trend line shows whether global wellbeing has improved,
-      declined, or held steady over the five-year window.
+      Average happiness scores across all surveyed countries, 2015–2019.
+      Despite dramatic global events during this period, aggregate wellbeing
+      proved remarkably stable — rising just <strong>0.031 points</strong> (less than 1%)
+      over five years. Hover over the chart to explore each year's figure.
     </p>
 
-    <div class="chart-single">
-      <div class="chart-wrap">
-        <img src="chart1_avg_happiness_per_year.png" alt="Average happiness score per year, 2015–2019" />
-        <p class="chart-caption">Fig 1 — Average world happiness score by year (2015–2019)</p>
+    <div class="chart-wrap">
+      <div class="chart-inner">
+        <canvas id="trendChart" height="80"></canvas>
       </div>
+      <p class="chart-caption">Fig 1 — World average happiness score by year (2015–2019) · interactive · hover for values</p>
     </div>
   </section>
 
-  <!-- ── Section 2: Country rankings ────────────────────────── -->
-  <section>
+  <!-- ── Section 2: Country rankings ──────────────────────────── -->
+  <section id="rankings">
     <p class="section-label">Section 02</p>
-    <h2>The Happiest Countries in 2019</h2>
+    <h2>The Happiest Countries by Year</h2>
     <p>
-      The ten countries with the highest happiness scores in 2019. Northern
-      European nations dominate the top of the list, pointing to the outsized
-      role of social infrastructure and trust in government.
+      Northern European nations consistently dominate the top 10.
+      Select a year below to see how the rankings shifted — Finland
+      broke through to number one in 2018 and has held the position ever since.
     </p>
 
-    <div class="chart-single">
-      <div class="chart-wrap">
-        <img src="chart2_top10_2019.png" alt="Top 10 happiest countries in 2019" />
-        <p class="chart-caption">Fig 2 — Top 10 happiest countries by score, 2019</p>
+    <div class="year-tabs">
+      <button class="year-tab" data-year="2015">2015</button>
+      <button class="year-tab" data-year="2016">2016</button>
+      <button class="year-tab" data-year="2017">2017</button>
+      <button class="year-tab" data-year="2018">2018</button>
+      <button class="year-tab active" data-year="2019">2019</button>
+    </div>
+
+    <div class="country-grid" id="countryGrid"></div>
+
+    <div class="chart-wrap">
+      <div class="chart-inner">
+        <canvas id="rankChart" height="120"></canvas>
       </div>
+      <p class="chart-caption">Fig 2 — Top 10 happiest countries · use year buttons to switch · hover for scores</p>
     </div>
   </section>
 
-  <!-- ── Section 3: Factor analysis ─────────────────────────── -->
-  <section>
+  <!-- ── Section 3: Factor analysis ────────────────────────────── -->
+  <section id="factors">
     <p class="section-label">Section 03</p>
     <h2>What Drives Happiness?</h2>
     <p>
-      Six contributing factors were compared against happiness scores using
-      Pearson correlation. Scatter plots reveal the relationship between wealth
-      and happiness, and between personal freedom and happiness.
-      The heatmap shows how all factors relate to one another.
+      Six factors were compared against happiness scores using Pearson correlation.
+      GDP per capita (r = 0.79) and life expectancy (r = 0.74) lead by a wide margin.
+      Generosity, surprisingly, has almost no predictive power (r = 0.14).
+      Switch the scatter plot between GDP and Freedom to compare relationships.
     </p>
 
     <div class="chart-pair">
       <div class="chart-wrap">
-        <img src="chart3_factor_correlations.png" alt="Bar chart of factor correlations with happiness score" />
-        <p class="chart-caption">Fig 3 — Correlation of each factor with happiness score</p>
+        <div class="chart-inner">
+          <canvas id="corrChart" height="210"></canvas>
+        </div>
+        <p class="chart-caption">Fig 3 — Pearson r for each factor vs happiness score</p>
       </div>
       <div class="chart-wrap">
-        <img src="chart6_correlation_heatmap.png" alt="Heatmap of all factor correlations" />
-        <p class="chart-caption">Fig 4 — Full correlation heatmap across all factors</p>
-      </div>
-    </div>
-
-    <div class="chart-pair" style="margin-top: 20px;">
-      <div class="chart-wrap">
-        <img src="chart4_gdp_vs_happiness.png" alt="Scatter plot of GDP per capita vs happiness score" />
-        <p class="chart-caption">Fig 5 — GDP per capita vs happiness score</p>
-      </div>
-      <div class="chart-wrap">
-        <img src="chart5_freedom_vs_happiness.png" alt="Scatter plot of freedom vs happiness score" />
-        <p class="chart-caption">Fig 6 — Freedom to make life choices vs happiness score</p>
+        <div class="chart-inner">
+          <div class="scatter-toggle">
+            <span>X-axis:</span>
+            <button class="scatter-btn active" id="xGDP">GDP</button>
+            <button class="scatter-btn" id="xFreedom">Freedom</button>
+          </div>
+          <canvas id="scatterChart" height="200"></canvas>
+        </div>
+        <p class="chart-caption">Fig 4 — 2019 country data · hover for country names</p>
       </div>
     </div>
   </section>
 
-  <!-- ── Section 4: Key conclusions ─────────────────────────── -->
-  <section>
+  <!-- ── Section 4: Conclusions ─────────────────────────────────── -->
+  <section id="conclusions">
     <p class="section-label">Section 04</p>
     <h2>Key Conclusions</h2>
 
@@ -267,63 +534,405 @@
 
       <div class="conclusion-card">
         <p class="conclusion-number">Finding 01</p>
-        <p class="conclusion-heading">Wealth and health predict happiness more than anything else</p>
-        <p>
-          GDP per capita (r = 0.79) and health/life expectancy (r = 0.74) are the
-          two strongest correlates of national happiness — by a clear margin. Social
-          support comes third (r = 0.65). Generosity, by contrast, has almost no
-          predictive power (r = 0.14): people in happy countries aren't necessarily
-          more charitable, they're simply wealthier, healthier, and more supported.
-        </p>
+        <span class="stat-highlight">r = 0.79</span>
+        <p class="conclusion-heading">Wealth and health predict happiness most strongly</p>
+        <p>GDP per capita (r = 0.79) and life expectancy (r = 0.74) are the two strongest correlates of national happiness — by a clear margin. Social support (r = 0.65) comes third. Generosity has almost no predictive power.</p>
       </div>
 
       <div class="conclusion-card">
         <p class="conclusion-number">Finding 02</p>
+        <span class="stat-highlight">+0.031</span>
         <p class="conclusion-heading">Global happiness has barely moved in five years</p>
-        <p>
-          The worldwide average happiness score rose just 0.031 points between 2015
-          and 2019 — an increase of less than 1%. There was a small dip in 2017,
-          followed by a recovery to the highest recorded average in 2019 (5.407).
-          Despite dramatic global events over this period, aggregate wellbeing
-          proved remarkably stable.
-        </p>
+        <p>The worldwide average rose just 0.031 points from 2015 to 2019 — less than 1%. There was a small dip in 2017, followed by a recovery to the highest recorded average (5.407) in 2019.</p>
       </div>
 
       <div class="conclusion-card">
         <p class="conclusion-number">Finding 03</p>
+        <span class="stat-highlight">2 / 10</span>
         <p class="conclusion-heading">Being rich does not mean being happy</p>
-        <p>
-          In every year from 2015 to 2019, only 2 out of the 10 wealthiest countries
-          (by GDP per capita) also appeared in the top 10 happiest — Norway and
-          Switzerland. Gulf states such as Qatar, Kuwait, and the UAE rank among the
-          world's richest nations but consistently fall outside the happiness top 10.
-          Meanwhile, Finland, Denmark, and Iceland are among the happiest countries
-          despite not topping the GDP table, suggesting that equality, trust, and
-          social cohesion matter as much as raw economic output.
-        </p>
+        <p>Only 2 of the 10 wealthiest countries appear in the top 10 happiest each year — Norway and Switzerland. Qatar, Kuwait, and the UAE rank among the world's richest but consistently miss the happiness top 10.</p>
       </div>
 
       <div class="conclusion-card">
         <p class="conclusion-number">Finding 04</p>
-        <p class="conclusion-heading">Australia, New Zealand, and North America lead by region</p>
-        <p>
-          Across the years for which regional data was available (2015–2016),
-          Australia and New Zealand ranked as the happiest region on average (rank 9.0),
-          followed closely by North America (rank 9.8) and Western Europe (rank 29.4).
-          Sub-Saharan Africa ranked last at an average position of 128.8 — a gap that
-          reflects deep disparities in wealth, health infrastructure, and institutional trust.
-        </p>
+        <span class="stat-highlight">Rank 9.0</span>
+        <p class="conclusion-heading">Australia &amp; New Zealand lead by region</p>
+        <p>Australia and New Zealand averaged rank 9.0 across 2015–2016 (the years with regional data), followed by North America (9.8) and Western Europe (29.4). Sub-Saharan Africa ranked last at 128.8.</p>
       </div>
 
     </div>
   </section>
 
-  <!-- ── Footer ──────────────────────────────────────────────── -->
+  <!-- ── Footer ─────────────────────────────────────────────────── -->
   <footer>
-    <span>World Happiness Report Analysis · 2015–2019</span>
-    <span>Python · pandas · matplotlib · seaborn</span>
+    <span>World Happiness Report Analysis · 2015–2019 · <a href="https://worldhappiness.report" target="_blank" rel="noopener">worldhappiness.report</a></span>
+    <span>Python · pandas · matplotlib · Chart.js</span>
   </footer>
 
-</div>
+</div><!-- /container -->
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+
+const yearlyAvg = [
+  { year: '2015', avg: 5.3757 },
+  { year: '2016', avg: 5.3822 },
+  { year: '2017', avg: 5.3540 },
+  { year: '2018', avg: 5.3759 },
+  { year: '2019', avg: 5.4071 },
+];
+
+const top10 = {
+  2015: [
+    { country: 'Switzerland', score: 7.587, flag: '🇨🇭', img: 'photo-1530122037265-a5f1f91d3b99' },
+    { country: 'Iceland',     score: 7.561, flag: '🇮🇸', img: 'photo-1476610182048-b716b8518aae' },
+    { country: 'Denmark',     score: 7.527, flag: '🇩🇰', img: 'photo-1513622470522-26c3c8a854bc' },
+    { country: 'Norway',      score: 7.522, flag: '🇳🇴', img: 'photo-1531366936337-7c912a4589a7' },
+    { country: 'Canada',      score: 7.427, flag: '🇨🇦', img: 'photo-1519832979-6fa011b87667' },
+    { country: 'Finland',     score: 7.406, flag: '🇫🇮', img: 'photo-1538332576228-eb5b4c4de6f5' },
+    { country: 'Netherlands', score: 7.378, flag: '🇳🇱', img: 'photo-1534351590666-13e3e96b5017' },
+    { country: 'Sweden',      score: 7.364, flag: '🇸🇪', img: 'photo-1509356843151-3e7d96241e11' },
+    { country: 'New Zealand', score: 7.286, flag: '🇳🇿', img: 'photo-1507699622108-4be3abd695ad' },
+    { country: 'Australia',   score: 7.284, flag: '🇦🇺', img: 'photo-1523482580672-f109ba8cb9be' },
+  ],
+  2016: [
+    { country: 'Denmark',     score: 7.526, flag: '🇩🇰', img: 'photo-1513622470522-26c3c8a854bc' },
+    { country: 'Switzerland', score: 7.509, flag: '🇨🇭', img: 'photo-1530122037265-a5f1f91d3b99' },
+    { country: 'Iceland',     score: 7.501, flag: '🇮🇸', img: 'photo-1476610182048-b716b8518aae' },
+    { country: 'Norway',      score: 7.498, flag: '🇳🇴', img: 'photo-1531366936337-7c912a4589a7' },
+    { country: 'Finland',     score: 7.413, flag: '🇫🇮', img: 'photo-1538332576228-eb5b4c4de6f5' },
+    { country: 'Canada',      score: 7.404, flag: '🇨🇦', img: 'photo-1519832979-6fa011b87667' },
+    { country: 'Netherlands', score: 7.339, flag: '🇳🇱', img: 'photo-1534351590666-13e3e96b5017' },
+    { country: 'New Zealand', score: 7.334, flag: '🇳🇿', img: 'photo-1507699622108-4be3abd695ad' },
+    { country: 'Australia',   score: 7.313, flag: '🇦🇺', img: 'photo-1523482580672-f109ba8cb9be' },
+    { country: 'Sweden',      score: 7.291, flag: '🇸🇪', img: 'photo-1509356843151-3e7d96241e11' },
+  ],
+  2017: [
+    { country: 'Norway',      score: 7.537, flag: '🇳🇴', img: 'photo-1531366936337-7c912a4589a7' },
+    { country: 'Denmark',     score: 7.522, flag: '🇩🇰', img: 'photo-1513622470522-26c3c8a854bc' },
+    { country: 'Iceland',     score: 7.504, flag: '🇮🇸', img: 'photo-1476610182048-b716b8518aae' },
+    { country: 'Switzerland', score: 7.494, flag: '🇨🇭', img: 'photo-1530122037265-a5f1f91d3b99' },
+    { country: 'Finland',     score: 7.469, flag: '🇫🇮', img: 'photo-1538332576228-eb5b4c4de6f5' },
+    { country: 'Netherlands', score: 7.377, flag: '🇳🇱', img: 'photo-1534351590666-13e3e96b5017' },
+    { country: 'Canada',      score: 7.316, flag: '🇨🇦', img: 'photo-1519832979-6fa011b87667' },
+    { country: 'New Zealand', score: 7.314, flag: '🇳🇿', img: 'photo-1507699622108-4be3abd695ad' },
+    { country: 'Sweden',      score: 7.284, flag: '🇸🇪', img: 'photo-1509356843151-3e7d96241e11' },
+    { country: 'Australia',   score: 7.284, flag: '🇦🇺', img: 'photo-1523482580672-f109ba8cb9be' },
+  ],
+  2018: [
+    { country: 'Finland',     score: 7.632, flag: '🇫🇮', img: 'photo-1538332576228-eb5b4c4de6f5' },
+    { country: 'Norway',      score: 7.594, flag: '🇳🇴', img: 'photo-1531366936337-7c912a4589a7' },
+    { country: 'Denmark',     score: 7.555, flag: '🇩🇰', img: 'photo-1513622470522-26c3c8a854bc' },
+    { country: 'Iceland',     score: 7.495, flag: '🇮🇸', img: 'photo-1476610182048-b716b8518aae' },
+    { country: 'Switzerland', score: 7.487, flag: '🇨🇭', img: 'photo-1530122037265-a5f1f91d3b99' },
+    { country: 'Netherlands', score: 7.441, flag: '🇳🇱', img: 'photo-1534351590666-13e3e96b5017' },
+    { country: 'Canada',      score: 7.328, flag: '🇨🇦', img: 'photo-1519832979-6fa011b87667' },
+    { country: 'New Zealand', score: 7.324, flag: '🇳🇿', img: 'photo-1507699622108-4be3abd695ad' },
+    { country: 'Sweden',      score: 7.314, flag: '🇸🇪', img: 'photo-1509356843151-3e7d96241e11' },
+    { country: 'Australia',   score: 7.272, flag: '🇦🇺', img: 'photo-1523482580672-f109ba8cb9be' },
+  ],
+  2019: [
+    { country: 'Finland',     score: 7.769, flag: '🇫🇮', img: 'photo-1538332576228-eb5b4c4de6f5' },
+    { country: 'Denmark',     score: 7.600, flag: '🇩🇰', img: 'photo-1513622470522-26c3c8a854bc' },
+    { country: 'Norway',      score: 7.554, flag: '🇳🇴', img: 'photo-1531366936337-7c912a4589a7' },
+    { country: 'Iceland',     score: 7.494, flag: '🇮🇸', img: 'photo-1476610182048-b716b8518aae' },
+    { country: 'Netherlands', score: 7.488, flag: '🇳🇱', img: 'photo-1534351590666-13e3e96b5017' },
+    { country: 'Switzerland', score: 7.480, flag: '🇨🇭', img: 'photo-1530122037265-a5f1f91d3b99' },
+    { country: 'Sweden',      score: 7.343, flag: '🇸🇪', img: 'photo-1509356843151-3e7d96241e11' },
+    { country: 'New Zealand', score: 7.307, flag: '🇳🇿', img: 'photo-1507699622108-4be3abd695ad' },
+    { country: 'Canada',      score: 7.278, flag: '🇨🇦', img: 'photo-1519832979-6fa011b87667' },
+    { country: 'Austria',     score: 7.246, flag: '🇦🇹', img: 'photo-1516550135131-fe3dcdd80b50' },
+  ],
+};
+
+const factorCorrelations = [
+  { label: 'GDP per Capita',            r: 0.789, color: 'rgba(37,99,235,0.85)'  },
+  { label: 'Health & Life Expectancy',  r: 0.743, color: 'rgba(37,99,235,0.72)'  },
+  { label: 'Social Support',            r: 0.649, color: 'rgba(37,99,235,0.58)'  },
+  { label: 'Freedom',                   r: 0.551, color: 'rgba(37,99,235,0.46)'  },
+  { label: 'Trust in Govt',             r: 0.396, color: 'rgba(37,99,235,0.34)'  },
+  { label: 'Generosity',                r: 0.138, color: 'rgba(37,99,235,0.22)'  },
+];
+
+const scatter2019 = [
+  {c:"Finland",s:7.769,g:1.34,f:0.596},{c:"Denmark",s:7.6,g:1.383,f:0.592},
+  {c:"Norway",s:7.554,g:1.488,f:0.603},{c:"Iceland",s:7.494,g:1.38,f:0.591},
+  {c:"Netherlands",s:7.488,g:1.396,f:0.557},{c:"Switzerland",s:7.48,g:1.452,f:0.572},
+  {c:"Sweden",s:7.343,g:1.387,f:0.574},{c:"New Zealand",s:7.307,g:1.303,f:0.585},
+  {c:"Canada",s:7.278,g:1.365,f:0.584},{c:"Austria",s:7.246,g:1.376,f:0.532},
+  {c:"Australia",s:7.228,g:1.372,f:0.557},{c:"Costa Rica",s:7.167,g:1.034,f:0.558},
+  {c:"Israel",s:7.139,g:1.276,f:0.371},{c:"Luxembourg",s:7.09,g:1.609,f:0.526},
+  {c:"United Kingdom",s:7.054,g:1.333,f:0.45},{c:"Ireland",s:7.021,g:1.499,f:0.516},
+  {c:"Germany",s:6.985,g:1.373,f:0.495},{c:"Belgium",s:6.923,g:1.356,f:0.473},
+  {c:"United States",s:6.892,g:1.433,f:0.454},{c:"Czech Republic",s:6.852,g:1.269,f:0.457},
+  {c:"UAE",s:6.825,g:1.503,f:0.598},{c:"France",s:6.592,g:1.324,f:0.436},
+  {c:"Taiwan",s:6.446,g:1.368,f:0.351},{c:"Chile",s:6.444,g:1.159,f:0.357},
+  {c:"Guatemala",s:6.436,g:0.8,f:0.535},{c:"Saudi Arabia",s:6.375,g:1.403,f:0.439},
+  {c:"Qatar",s:6.374,g:1.684,f:0.555},{c:"Spain",s:6.354,g:1.286,f:0.362},
+  {c:"Brazil",s:6.3,g:1.004,f:0.39},{c:"Singapore",s:6.262,g:1.572,f:0.556},
+  {c:"Italy",s:6.223,g:1.294,f:0.231},{c:"Poland",s:6.182,g:1.206,f:0.483},
+  {c:"Argentina",s:6.086,g:1.092,f:0.471},{c:"Romania",s:6.07,g:1.162,f:0.462},
+  {c:"Thailand",s:6.008,g:1.05,f:0.557},{c:"South Korea",s:5.895,g:1.301,f:0.159},
+  {c:"Japan",s:5.886,g:1.327,f:0.445},{c:"Russia",s:5.648,g:1.183,f:0.334},
+  {c:"China",s:5.191,g:1.029,f:0.521},{c:"India",s:4.015,g:0.755,f:0.498},
+  {c:"Pakistan",s:5.653,g:0.677,f:0.313},{c:"Nigeria",s:5.265,g:0.696,f:0.426},
+  {c:"Kenya",s:4.509,g:0.512,f:0.431},{c:"Zimbabwe",s:3.663,g:0.366,f:0.361},
+  {c:"Rwanda",s:3.334,g:0.359,f:0.555},{c:"Afghanistan",s:3.203,g:0.35,f:0.0},
+  {c:"South Sudan",s:2.853,g:0.306,f:0.01},{c:"Burundi",s:3.775,g:0.046,f:0.22},
+  {c:"Ghana",s:4.996,g:0.611,f:0.381},{c:"Vietnam",s:5.175,g:0.741,f:0.543},
+  {c:"Indonesia",s:5.192,g:0.931,f:0.491},{c:"Philippines",s:5.631,g:0.807,f:0.558},
+  {c:"Morocco",s:5.208,g:0.801,f:0.418},{c:"Honduras",s:5.86,g:0.642,f:0.507},
+  {c:"Bolivia",s:5.779,g:0.776,f:0.511},{c:"Serbia",s:5.603,g:1.004,f:0.282},
+  {c:"Kazakhstan",s:5.809,g:1.173,f:0.41},{c:"Hungary",s:5.758,g:1.201,f:0.199},
+  {c:"Uzbekistan",s:6.174,g:0.745,f:0.631},{c:"Cambodia",s:4.7,g:0.574,f:0.609},
+  {c:"Ethiopia",s:4.286,g:0.336,f:0.344},{c:"Uganda",s:4.189,g:0.332,f:0.356},
+  {c:"Malawi",s:3.41,g:0.191,f:0.443},{c:"Yemen",s:3.38,g:0.287,f:0.143},
+  {c:"Central African Rep.",s:3.083,g:0.026,f:0.225},{c:"Myanmar",s:4.36,g:0.71,f:0.525},
+];
+
+// ── Shared tooltip style ──────────────────────────────────────────────────────
+const tooltipStyle = {
+  backgroundColor: '#1e293b',
+  titleColor: '#fff',
+  bodyColor: 'rgba(255,255,255,0.72)',
+  padding: 10,
+  cornerRadius: 6,
+  displayColors: false,
+};
+
+// ── Chart 1: Trend line ───────────────────────────────────────────────────────
+new Chart(document.getElementById('trendChart').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: yearlyAvg.map(d => d.year),
+    datasets: [{
+      label: 'Avg Happiness',
+      data: yearlyAvg.map(d => d.avg),
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37,99,235,0.07)',
+      borderWidth: 2.5,
+      pointBackgroundColor: '#2563eb',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointRadius: 7,
+      pointHoverRadius: 9,
+      tension: 0.35,
+      fill: true,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tooltipStyle,
+        callbacks: { label: ctx => ` Avg score: ${ctx.parsed.y.toFixed(4)}` }
+      }
+    },
+    scales: {
+      y: {
+        min: 5.32, max: 5.44,
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      },
+      x: {
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8' },
+        grid: { display: false },
+      }
+    }
+  }
+});
+
+// ── Chart 2: Rankings bar ─────────────────────────────────────────────────────
+const rankCtx = document.getElementById('rankChart').getContext('2d');
+
+function makeBarColors(n) {
+  return Array.from({ length: n }, (_, i) => {
+    const t = i / (n - 1);
+    return `rgba(37,99,235,${(0.28 + t * 0.72).toFixed(2)})`;
+  });
+}
+
+function getRankData(year) {
+  const d = [...top10[year]].reverse();
+  return { labels: d.map(r => `${r.flag} ${r.country}`), data: d.map(r => r.score) };
+}
+
+const initRank = getRankData(2019);
+const rankChart = new Chart(rankCtx, {
+  type: 'bar',
+  data: {
+    labels: initRank.labels,
+    datasets: [{
+      label: 'Happiness Score',
+      data: initRank.data,
+      backgroundColor: makeBarColors(10),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tooltipStyle,
+        callbacks: { label: ctx => ` Score: ${ctx.parsed.x.toFixed(3)}` }
+      }
+    },
+    scales: {
+      x: {
+        min: 6.8, max: 8.0,
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      },
+      y: {
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 12 }, color: '#334155' },
+        grid: { display: false },
+      }
+    }
+  }
+});
+
+function updateRanking(year) {
+  const d = getRankData(year);
+  rankChart.data.labels = d.labels;
+  rankChart.data.datasets[0].data = d.data;
+  rankChart.update('active');
+  renderCountryGrid(year);
+}
+
+document.querySelectorAll('.year-tab[data-year]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.year-tab[data-year]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateRanking(parseInt(btn.dataset.year));
+  });
+});
+
+// ── Country grid ──────────────────────────────────────────────────────────────
+function renderCountryGrid(year) {
+  document.getElementById('countryGrid').innerHTML = top10[year].map((r, i) => `
+    <div class="country-card">
+      <img class="country-card-img"
+           src="https://images.unsplash.com/${r.img}?auto=format&fit=crop&w=200&h=100&q=65"
+           alt="${r.country}" loading="lazy"
+           onerror="this.style.background='#e2e8f0';this.removeAttribute('src')" />
+      <div class="country-card-body">
+        <div class="country-card-rank">#${i + 1}</div>
+        <div class="country-card-name">${r.flag} ${r.country}</div>
+        <div class="country-card-score">${r.score.toFixed(3)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+renderCountryGrid(2019);
+
+// ── Chart 3: Correlation bars ──────────────────────────────────────────────────
+new Chart(document.getElementById('corrChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: factorCorrelations.map(d => d.label),
+    datasets: [{
+      label: 'Pearson r',
+      data: factorCorrelations.map(d => d.r),
+      backgroundColor: factorCorrelations.map(d => d.color),
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tooltipStyle,
+        callbacks: { label: ctx => ` r = ${ctx.parsed.x.toFixed(3)}` }
+      }
+    },
+    scales: {
+      x: {
+        min: 0, max: 1,
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      },
+      y: {
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#334155' },
+        grid: { display: false },
+      }
+    }
+  }
+});
+
+// ── Chart 4: Scatter plot ──────────────────────────────────────────────────────
+const scatterCtx = document.getElementById('scatterChart').getContext('2d');
+let scatterMode = 'gdp';
+
+function getScatterPts(mode) {
+  return scatter2019.map(d => ({ x: mode === 'gdp' ? d.g : d.f, y: d.s, label: d.c }));
+}
+
+const scatterChart = new Chart(scatterCtx, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Country',
+      data: getScatterPts('gdp'),
+      backgroundColor: 'rgba(37,99,235,0.45)',
+      borderColor: 'rgba(37,99,235,0.7)',
+      borderWidth: 1,
+      pointRadius: 4,
+      pointHoverRadius: 7,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        ...tooltipStyle,
+        callbacks: {
+          title: () => '',
+          label: ctx => ` ${ctx.raw.label}  →  ${ctx.parsed.y.toFixed(3)}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true, text: 'GDP per Capita',
+          font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8'
+        },
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 10 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      },
+      y: {
+        title: {
+          display: true, text: 'Happiness Score',
+          font: { family: 'Helvetica Neue, sans-serif', size: 11 }, color: '#94a3b8'
+        },
+        ticks: { font: { family: 'Helvetica Neue, sans-serif', size: 10 }, color: '#94a3b8' },
+        grid: { color: '#f0ede8' },
+      }
+    }
+  }
+});
+
+document.getElementById('xGDP').addEventListener('click', () => {
+  document.getElementById('xGDP').classList.add('active');
+  document.getElementById('xFreedom').classList.remove('active');
+  scatterChart.data.datasets[0].data = getScatterPts('gdp');
+  scatterChart.options.scales.x.title.text = 'GDP per Capita';
+  scatterChart.update('active');
+});
+
+document.getElementById('xFreedom').addEventListener('click', () => {
+  document.getElementById('xFreedom').classList.add('active');
+  document.getElementById('xGDP').classList.remove('active');
+  scatterChart.data.datasets[0].data = getScatterPts('freedom');
+  scatterChart.options.scales.x.title.text = 'Freedom Score';
+  scatterChart.update('active');
+});
+</script>
 </body>
 </html>

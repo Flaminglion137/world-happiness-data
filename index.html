@@ -11,9 +11,9 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: "Georgia", serif;
-      background: #f9f8f6;
-      color: #1e293b;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #0f172a;
+      color: #fff;
       line-height: 1.75;
     }
 
@@ -115,9 +115,8 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255,255,255,0.96);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid #e2e8f0;
+      background: #0f172a;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .sticky-nav-inner {
@@ -131,12 +130,11 @@
     }
 
     .sticky-nav a {
-      font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.13em;
-      color: #94a3b8;
+      color: rgba(255,255,255,0.4);
       text-decoration: none;
       padding: 15px 14px;
       white-space: nowrap;
@@ -145,39 +143,43 @@
     }
 
     .sticky-nav a:hover {
-      color: #1e293b;
-      border-bottom-color: #1e293b;
+      color: #fff;
+      border-bottom-color: #fff;
     }
 
     /* ── Layout ────────────────────────────────────────────────── */
     .container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 32px;
     }
 
-    section {
-      padding: 80px 0 72px;
-      border-bottom: 1px solid #e8e5e0;
-    }
+    /* ── Section colour blocks ──────────────────────────────────── */
+    section { padding: 88px 0 80px; }
 
-    section:last-of-type { border-bottom: none; }
+    #trends      { background: #0f2744; }
+    #rankings    { background: #0c3d38; }
+    #factors     { background: #7f1d1d; }
+    #money       { background: #7c2d12; }
+    #predict     { background: #14532d; }
+    #opinion     { background: #3b0764; }
+    #conclusions { background: #1e1b4b; }
 
+    /* ── Text on dark sections ──────────────────────────────────── */
     .section-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 10px;
       font-weight: 800;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #2563eb;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      padding: 4px 10px;
+      color: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 4px 12px;
       border-radius: 20px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .section-label::before {
@@ -185,22 +187,58 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #2563eb;
+      background: rgba(255,255,255,0.7);
       flex-shrink: 0;
     }
 
     h2 {
-      font-size: clamp(26px, 3.5vw, 36px);
-      font-weight: 700;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
-      color: #0f172a;
-      margin-bottom: 16px;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 18px;
     }
 
-    p { margin-bottom: 14px; color: #475569; }
+    .section-intro {
+      font-size: 16px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      margin-bottom: 0;
+      max-width: 700px;
+    }
+
+    .section-intro strong { color: #fff; }
+
+    p { margin-bottom: 14px; color: rgba(255,255,255,0.72); }
     p:last-child { margin-bottom: 0; }
+    p strong { color: #fff; }
+
+    /* ── Interactive controls on dark bg ────────────────────────── */
+    .year-tab {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.6);
+    }
+    .year-tab:hover {
+      background: rgba(255,255,255,0.16);
+      border-color: rgba(255,255,255,0.45);
+      color: #fff;
+    }
+    .year-tab.active {
+      background: #fff;
+      color: #1e293b;
+      border-color: #fff;
+    }
+
+    .scatter-btn {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.6);
+    }
+    .scatter-btn:hover { background: rgba(255,255,255,0.16); color: #fff; border-color: rgba(255,255,255,0.4); }
+    .scatter-btn.active { background: #fff; color: #1e293b; border-color: #fff; }
+    .scatter-toggle span { color: rgba(255,255,255,0.45) !important; }
 
     /* ── Chart blocks ──────────────────────────────────────────── */
     .chart-wrap {
@@ -397,10 +435,13 @@
 
     /* ── Footer ────────────────────────────────────────────────── */
     footer {
+      background: #0a0f1a;
       padding: 36px 0;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    footer .container {
       font-size: 12px;
-      color: #94a3b8;
+      color: rgba(255,255,255,0.3);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -408,8 +449,8 @@
       gap: 8px;
     }
 
-    footer a { color: #64748b; text-decoration: none; }
-    footer a:hover { color: #1e293b; }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: #fff; }
 
     /* ── Story cards (money section) ──────────────────────────── */
     .story-grid {
@@ -871,10 +912,8 @@
   </div>
 </nav>
 
-<div class="container">
-
   <!-- ── Section 1: Global trends ──────────────────────────────── -->
-  <section id="trends">
+  <section id="trends"><div class="container">
     <p class="section-label">Section 01</p>
     <h2>Global Happiness Over Time</h2>
     <p>
@@ -890,10 +929,10 @@
       </div>
       <p class="chart-caption">Fig 1 — World average happiness score by year (2015–2019) · interactive · hover for values</p>
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Section 2: Country rankings ──────────────────────────── -->
-  <section id="rankings">
+  <section id="rankings"><div class="container">
     <p class="section-label">Section 02</p>
     <h2>The Happiest Countries by Year</h2>
     <p>
@@ -918,10 +957,10 @@
       </div>
       <p class="chart-caption">Fig 2 — Top 10 happiest countries · use year buttons to switch · hover for scores</p>
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Section 3: Factor analysis ────────────────────────────── -->
-  <section id="factors">
+  <section id="factors"><div class="container">
     <p class="section-label">Section 03</p>
     <h2>What Drives Happiness?</h2>
     <p>
@@ -950,10 +989,10 @@
         <p class="chart-caption">Fig 4 — 2019 country data · hover for country names</p>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Section 4: Does Money Buy Happiness? ──────────────────────── -->
-  <section id="money">
+  <section id="money"><div class="container">
     <p class="section-label">Section 04</p>
     <h2>Does Money Buy Happiness?</h2>
     <p>GDP is the strongest single predictor of happiness (r = 0.79) — but the relationship is more nuanced than it first appears. Wealth doesn't make citizens <em>feel</em> rich. It funds the <strong>infrastructure of wellbeing</strong>: universal healthcare, social safety nets, low corruption, and the freedom to live as you choose. Three patterns in the data tell this story clearly.</p>
@@ -961,10 +1000,10 @@
     <div class="chart-wrap">
       <div class="chart-inner">
         <div style="display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;">
-          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#2563eb;display:inline-block;"></span> The Full Package</span>
-          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span> Wealth Without Wellbeing</span>
-          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;"></span> Happy With Less</span>
-          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:#475569;"><span style="width:10px;height:10px;border-radius:50%;background:#cbd5e1;display:inline-block;"></span> All other countries</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:rgba(255,255,255,0.75);"><span style="width:10px;height:10px;border-radius:50%;background:#60a5fa;display:inline-block;"></span> The Full Package</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:rgba(255,255,255,0.75);"><span style="width:10px;height:10px;border-radius:50%;background:#fbbf24;display:inline-block;"></span> Wealth Without Wellbeing</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:rgba(255,255,255,0.75);"><span style="width:10px;height:10px;border-radius:50%;background:#4ade80;display:inline-block;"></span> Happy With Less</span>
+          <span style="display:flex;align-items:center;gap:6px;font-family:sans-serif;font-size:11px;color:rgba(255,255,255,0.75);"><span style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.3);display:inline-block;"></span> All other countries</span>
         </div>
         <canvas id="groupedScatter" height="90"></canvas>
       </div>
@@ -1012,10 +1051,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Section 5: Predict Your Score ──────────────────────────────── -->
-  <section id="predict">
+  <section id="predict"><div class="container">
     <p class="section-label">Section 05</p>
     <h2>Predict Your Country's Happiness Score</h2>
     <p>Using a multiple linear regression model trained on all 782 observations, adjust the six sliders to match your country's profile and see where it would rank. Sliders default to the 2019 world average.</p>
@@ -1056,10 +1095,10 @@
         <p class="score-compare" id="pred-compare">Equal to the <strong>world average</strong>.<br>Similar to <strong>Jamaica</strong> or <strong>Serbia</strong>.</p>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Section 6: Your Opinion ─────────────────────────────────────── -->
-  <section id="opinion">
+  <section id="opinion"><div class="container">
     <p class="section-label">Section 06</p>
     <h2>What Do You Think?</h2>
     <p>The data tells one story — but your perspective matters too. Share your view on what drives happiness and see how others responded.</p>
@@ -1126,10 +1165,10 @@
         <p class="poll-meta">Based on <strong id="poll-count">83</strong> responses from <strong>41</strong> countries.</p>
       </div>
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Section 7: Conclusions ─────────────────────────────────────── -->
-  <section id="conclusions">
+  <section id="conclusions"><div class="container">
     <p class="section-label">Section 07</p>
     <h2>Key Conclusions</h2>
 
@@ -1164,15 +1203,15 @@
       </div>
 
     </div>
-  </section>
+  </div></section>
 
   <!-- ── Footer ─────────────────────────────────────────────────── -->
   <footer>
-    <span>World Happiness Report Analysis · 2015–2019 · <a href="https://worldhappiness.report" target="_blank" rel="noopener">worldhappiness.report</a></span>
-    <span>Python · pandas · matplotlib · Chart.js</span>
+    <div class="container">
+      <span>World Happiness Report Analysis · 2015–2019 · <a href="https://worldhappiness.report" target="_blank" rel="noopener">worldhappiness.report</a></span>
+      <span>Python · pandas · matplotlib · Chart.js</span>
+    </div>
   </footer>
-
-</div><!-- /container -->
 
 <script>
 // ── Data ─────────────────────────────────────────────────────────────────────
